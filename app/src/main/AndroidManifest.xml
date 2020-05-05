@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Cuestionarios"></activity>
+        <activity android:name=".Preguntas"></activity>
+        <activity android:name=".Cuestionarios" />
         <activity android:name=".mainScreen" />
         <activity android:name=".MainActivity">
             <intent-filter>
