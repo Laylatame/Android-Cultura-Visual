@@ -1,5 +1,6 @@
 package com.example.culturavisual;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -9,13 +10,20 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseError;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class RegistrarUsuario extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    DatabaseReference usuariosReference;
+
 
     EditText registerUsername;
     EditText registerContrasena;
@@ -44,10 +52,12 @@ public class RegistrarUsuario extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
+        usuariosReference = firebaseDatabase.getReference("usuarios");
+
     }
 
     private void createUser(){
-        String username = registerUsername.getText().toString();
+        final String username = registerUsername.getText().toString();
         String password = registerContrasena.getText().toString();
 
         if(username.equals("")){

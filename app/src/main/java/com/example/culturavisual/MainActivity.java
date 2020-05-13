@@ -48,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
 
         initializeFirebase();
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         buttonIniciarSesion.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -61,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
                     validation();
                 } else{
                     findUser();
-                    //showMessages();
                 }
             }
         });
@@ -71,12 +76,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent myIntent = new Intent(MainActivity.this, RegistrarUsuario.class);
-                //myIntent.putExtra("key", value); //Optional parameters
                 MainActivity.this.startActivity(myIntent);
 
             }
         });
-
 
     }
 
@@ -143,15 +146,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void showMessages(){
-        if(found){
-            Toast.makeText(getApplicationContext(),
-                    "Encontró", Toast.LENGTH_SHORT).show();
-        } else{
-            Toast.makeText(getApplicationContext(),
-                    "No encontró", Toast.LENGTH_SHORT).show();
-        }
-    }
 
 
 }
