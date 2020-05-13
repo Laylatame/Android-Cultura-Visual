@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>690635337078-t7kpujh19a9vc4budsp0pn3nn2bmd8fa.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.690635337078-t7kpujh19a9vc4budsp0pn3nn2bmd8fa</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>690635337078-i7rcln6m5ht9ult3lc6a66ibjuuf0u0l.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB0DdodOFHnhwO4WZvbIiNqkSXWfOufnH8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>690635337078</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.culturavisual</string>
+	<key>PROJECT_ID</key>
+	<string>cultura-visual-d33a2</string>
+	<key>STORAGE_BUCKET</key>
+	<string>cultura-visual-d33a2.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:690635337078:ios:6ca7546afe55ced1f25e57</string>
+	<key>DATABASE_URL</key>
+	<string>https://cultura-visual-d33a2.firebaseio.com</string>
+</dict>
+</plist>

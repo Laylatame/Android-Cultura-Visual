@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "690635337078",
+    "firebase_url": "https://cultura-visual-d33a2.firebaseio.com",
+    "project_id": "cultura-visual-d33a2",
+    "storage_bucket": "cultura-visual-d33a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:690635337078:android:01e112128e12cc50f25e57",
+        "android_client_info": {
+          "package_name": "com.example.culturavisual"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "690635337078-i7rcln6m5ht9ult3lc6a66ibjuuf0u0l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.culturavisual",
+            "certificate_hash": "eae62ae1074803fb1d857a38310154098cd7c753"
+          }
+        },
+        {
+          "client_id": "690635337078-2eg8vdkakleomv2j979j303t6kjcdd95.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1lOAB7YEOU9TOlEQUIwYyWZKeNyHTun4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "690635337078-2eg8vdkakleomv2j979j303t6kjcdd95.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "690635337078-t7kpujh19a9vc4budsp0pn3nn2bmd8fa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.culturavisual"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
