@@ -1,9 +1,5 @@
 package com.example.culturavisual;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +14,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -93,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
         usuariosReference.orderByChild("usuario").equalTo(username).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                Usuarios userFound = dataSnapshot.getValue(Usuarios.class);
+            Usuarios userFound = dataSnapshot.getValue(Usuarios.class);
+
 
                 if(userFound.getContrasena().equals(password)){
                     Intent myIntent = new Intent(MainActivity.this, mainScreen.class);
