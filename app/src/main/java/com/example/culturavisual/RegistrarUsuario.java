@@ -9,7 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegistrarUsuario extends AppCompatActivity {
@@ -44,24 +49,43 @@ public class RegistrarUsuario extends AppCompatActivity {
 
     private void createUser(){
         final String username = registerUsername.getText().toString();
-        String password = registerContrasena.getText().toString();
+        final String password = registerContrasena.getText().toString();
 
         if(username.equals("")){
             validation();
         } else if (password.equals("")){
             validation();
         } else{
-            Usuarios user = new Usuarios();
+            final Usuarios user = new Usuarios();
             user.setUsuario(username);
             user.setContrasena(password);
-            usersCollection.document(username).set(user);
 
-            Toast.makeText(getApplicationContext(),
-                    "Usuario creado.", Toast.LENGTH_SHORT).show();
+            DocumentReference userRef = usersCollection.document(username);
 
-            Intent myIntent = new Intent(RegistrarUsuario.this, mainScreen.class);
-            myIntent.putExtra("username", user.getUsuario());
-            RegistrarUsuario.this.startActivity(myIntent);
+            userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if(documentSnapshot.exists()){
+                        Toast.makeText(getApplicationContext(),
+                                "Ese usuario ya existe, porfavor elige otro", Toast.LENGTH_SHORT).show();
+                    } else{
+                        usersCollection.document(username).set(user);
+
+                        Toast.makeText(getApplicationContext(),
+                                "Usuario creado.", Toast.LENGTH_SHORT).show();
+
+                        Intent myIntent = new Intent(RegistrarUsuario.this, mainScreen.class);
+                        myIntent.putExtra("username", user.getUsuario());
+                        RegistrarUsuario.this.startActivity(myIntent);
+                    }
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
         }
     }
 
