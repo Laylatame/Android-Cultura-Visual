@@ -42,6 +42,19 @@
 
         </TableRow>
 
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_preguntas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </TableRow>
 
     <TableRow
         android:layout_width="match_parent"
@@ -57,19 +70,6 @@
             android:text="Aceptar" />
     </TableRow>
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_preguntas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/darker_gray">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-    </TableRow>
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

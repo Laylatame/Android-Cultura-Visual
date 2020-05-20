@@ -9,17 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RegistrarUsuario extends AppCompatActivity {
 
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
-    DatabaseReference usuariosReference;
-
+    FirebaseFirestore db;
+    CollectionReference usersCollection;
 
     EditText registerUsername;
     EditText registerContrasena;
@@ -30,11 +26,13 @@ public class RegistrarUsuario extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_usuario);
 
+        db = FirebaseFirestore.getInstance();
+        usersCollection = db.collection("usuarios");
+
         registerUsername = findViewById(R.id.registerUsername);
         registerContrasena = findViewById(R.id.registerPassword);
         buttonRegistrar = findViewById(R.id.buttonRegistrar);
 
-        initializeFirebase();
 
         buttonRegistrar.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -42,14 +40,6 @@ public class RegistrarUsuario extends AppCompatActivity {
                 createUser();
             }
         });
-    }
-
-    private void initializeFirebase(){
-        FirebaseApp.initializeApp(this);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
-        usuariosReference = firebaseDatabase.getReference("usuarios");
-
     }
 
     private void createUser(){
@@ -64,7 +54,7 @@ public class RegistrarUsuario extends AppCompatActivity {
             Usuarios user = new Usuarios();
             user.setUsuario(username);
             user.setContrasena(password);
-            databaseReference.child("usuarios").child(user.getUsuario()).setValue(user);
+            usersCollection.document(username).set(user);
 
             Toast.makeText(getApplicationContext(),
                     "Usuario creado.", Toast.LENGTH_SHORT).show();

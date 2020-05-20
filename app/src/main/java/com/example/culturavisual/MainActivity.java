@@ -8,22 +8,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
-    DatabaseReference usuariosReference;
+    //Login screen
 
     EditText editUsername;
     EditText editPassword;
@@ -32,7 +29,11 @@ public class MainActivity extends AppCompatActivity {
 
     String username;
     String password;
-    Boolean found = false;
+
+    FirebaseFirestore db;
+    CollectionReference usersCollection;
+
+
 
 
     @Override
@@ -45,8 +46,9 @@ public class MainActivity extends AppCompatActivity {
         buttonIniciarSesion = findViewById(R.id.buttonIniciarSesion);
         registerAccount = findViewById(R.id.textViewRegister);
 
-        initializeFirebase();
 
+        db = FirebaseFirestore.getInstance();
+        usersCollection = db.collection("usuarios");
 
     }
 
@@ -82,56 +84,59 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void initializeFirebase(){
-        FirebaseApp.initializeApp(this);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
-        usuariosReference = firebaseDatabase.getReference("usuarios");
-    }
-
     private void findUser(){
-        usuariosReference.orderByChild("usuario").equalTo(username).addChildEventListener(new ChildEventListener() {
+
+        /*
+        db.collection("usuarios")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Toast.makeText(getApplicationContext(), document.getData().toString(), Toast.LENGTH_SHORT).show();
+                                //Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "No existe", Toast.LENGTH_SHORT).show();
+                            //Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+
+         */
+
+        DocumentReference userRef = usersCollection.document(username);
+
+        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-            Usuarios userFound = dataSnapshot.getValue(Usuarios.class);
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()){
+                    String dbUsername = documentSnapshot.getString("usuario");
+                    String dbPassword = documentSnapshot.getString("contrasena");
 
+                    Usuarios userFound = new Usuarios(dbUsername, dbPassword);
 
-                if(userFound.getContrasena().equals(password)){
-                    Intent myIntent = new Intent(MainActivity.this, mainScreen.class);
-                    myIntent.putExtra("username", userFound.getUsuario());
-                    MainActivity.this.startActivity(myIntent);
+                    if(userFound.getContrasena().equals(password)){
+                        Intent myIntent = new Intent(MainActivity.this, mainScreen.class);
+                        myIntent.putExtra("user", userFound);
+                        MainActivity.this.startActivity(myIntent);
 
+                    } else{
+                        Toast.makeText(getApplicationContext(),
+                                "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                    }
                 } else{
-                    Toast.makeText(getApplicationContext(),
-                            "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "El usuario no existe, porfavor regístrate.", Toast.LENGTH_SHORT).show();
                 }
 
-                found = true;
-
             }
-
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onFailure(@NonNull Exception e) {
 
             }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-
         });
-
     }
 
     private void validation(){
