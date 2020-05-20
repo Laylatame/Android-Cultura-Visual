@@ -86,26 +86,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void findUser(){
 
-        /*
-        db.collection("usuarios")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Toast.makeText(getApplicationContext(), document.getData().toString(), Toast.LENGTH_SHORT).show();
-                                //Log.d(TAG, document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Toast.makeText(getApplicationContext(), "No existe", Toast.LENGTH_SHORT).show();
-                            //Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
-
-         */
-
         DocumentReference userRef = usersCollection.document(username);
 
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -116,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                     String dbPassword = documentSnapshot.getString("contrasena");
 
                     Usuarios userFound = new Usuarios(dbUsername, dbPassword);
+
 
                     if(userFound.getContrasena().equals(password)){
                         Intent myIntent = new Intent(MainActivity.this, mainScreen.class);

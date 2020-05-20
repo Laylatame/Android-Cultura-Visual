@@ -1,151 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Cuestionarios"
-    android:layout_gravity="center_horizontal">
+    android:orientation="vertical"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="391dp"
-        android:layout_height="55dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:clickable="false"
+        android:layout_margin="8dp"
         android:gravity="center_horizontal"
-        android:text="Cultura Visual y Sonora"
+        android:text="Elige un cuestionario"
         android:textColor="@color/black"
-        android:textSize="30dp"
-        tools:layout_editor_absoluteX="11dp"
-        tools:layout_editor_absoluteY="18dp" />
+        android:textSize="20dp"
+   />
 
-    <ScrollView
-        android:layout_width="411dp"
-        android:layout_height="635dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="96dp">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewCuestionarios"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/darker_gray">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    </androidx.recyclerview.widget.RecyclerView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
 
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/tecdemonterrey" />
-
-                <Button
-                    android:layout_width="300dp"
-                    android:layout_height="60dp"
-                    android:text="Cultura General"
-                    android:textAllCaps="false"
-                    android:textSize="20dp"
-                    android:id="@+id/btn_culturaGeneral"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/white"
-                    android:background="@color/red" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
-
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/tecdemonterrey" />
-
-                <Button
-                    android:layout_width="300dp"
-                    android:layout_height="60dp"
-                    android:text="Cultura Visual"
-                    android:textAllCaps="false"
-                    android:textSize="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/white"
-                    android:background="@color/red" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
-
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/tecdemonterrey" />
-
-                <Button
-                    android:layout_width="300dp"
-                    android:layout_height="60dp"
-                    android:text="Cultura Sonora"
-                    android:textAllCaps="false"
-                    android:textSize="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/white"
-                    android:background="@color/red" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
-
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/tecdemonterrey" />
-
-                <Button
-                    android:layout_width="300dp"
-                    android:layout_height="60dp"
-                    android:text="Arquitectura"
-                    android:textAllCaps="false"
-                    android:textSize="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/white"
-                    android:background="@color/red" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
-
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/tecdemonterrey" />
-
-                <Button
-                    android:layout_width="300dp"
-                    android:layout_height="60dp"
-                    android:text="Arte"
-                    android:textAllCaps="false"
-                    android:textSize="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/white"
-                    android:background="@color/red" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-    </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
