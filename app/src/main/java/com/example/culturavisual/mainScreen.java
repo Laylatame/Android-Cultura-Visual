@@ -12,11 +12,14 @@ public class mainScreen extends AppCompatActivity {
 
     Button buttonMisEstadisticas;
     Button buttonCuestionarios;
-
+    Usuarios loggedUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
+
+        loggedUser = (Usuarios)getIntent().getSerializableExtra("user");
+
 
         buttonMisEstadisticas = findViewById(R.id.botonEstadisticas);
         buttonCuestionarios = findViewById(R.id.botonCuestionarios);
