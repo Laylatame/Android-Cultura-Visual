@@ -21,11 +21,13 @@ public class AdapterCuestionario extends RecyclerView.Adapter<AdapterCuestionari
 
     private Context mContext;
     private ArrayList<CuestionarioObj> cuestionarioList;
+    private Usuarios loggedUser;
 
 
-    public AdapterCuestionario(Context context, ArrayList<CuestionarioObj> cuestionarioList){
+    public AdapterCuestionario(Context context, ArrayList<CuestionarioObj> cuestionarioList, Usuarios loggedUser){
         this.mContext = context;
         this.cuestionarioList = cuestionarioList;
+        this.loggedUser = loggedUser;
     }
 
     @NonNull
@@ -65,20 +67,20 @@ public class AdapterCuestionario extends RecyclerView.Adapter<AdapterCuestionari
             mTextViewCuestionario = itemView.findViewById(R.id.textViewCuestionario);
 
 
-            /*
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();
-                    Noticia current = mNoticiaList.get(position);
-                    String url = current.getNoticiaURL();
-                    Intent viewIntent =
-                            new Intent(Intent.ACTION_VIEW,
-                                    Uri.parse(url));
-                    mContext.startActivity(viewIntent);
+                    CuestionarioObj current = cuestionarioList.get(position);
+                    String cuestionario = current.getNombreCuestionario();
+
+                    Intent myIntent = new Intent(mContext, Preguntas.class);
+                    myIntent.putExtra("user", loggedUser);
+                    myIntent.putExtra("quiz", current);
+                    mContext.startActivity(myIntent);
                 }
             });
-             */
+
         }
     }
 }

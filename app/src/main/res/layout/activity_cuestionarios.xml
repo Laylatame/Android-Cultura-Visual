@@ -17,6 +17,7 @@
         android:layout_margin="8dp"
         android:gravity="center_horizontal"
         android:text="Elige un cuestionario"
+        android:layout_marginBottom="10dp"
         android:textColor="@color/black"
         android:textSize="20dp"
    />

@@ -42,6 +42,7 @@ public class mainScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(mainScreen.this, Cuestionarios.class);
+                myIntent.putExtra("user", loggedUser);
                 mainScreen.this.startActivity(myIntent);
             }
         });

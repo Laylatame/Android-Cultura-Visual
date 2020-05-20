@@ -36,6 +36,7 @@ public class Cuestionarios extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private AdapterCuestionario mAdapterCuestionario;
     private ArrayList<CuestionarioObj> mCuestionariosList;
+    Usuarios loggedUser;
 
     FirebaseFirestore db;
     CollectionReference quizesCollection;
@@ -52,6 +53,8 @@ public class Cuestionarios extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerViewCuestionarios);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        loggedUser = (Usuarios)getIntent().getSerializableExtra("user");
+
 
         mCuestionariosList = new ArrayList<>();
 
@@ -69,21 +72,17 @@ public class Cuestionarios extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String dbNombreCuestionario = document.getString("quizName");
                                 String dbImagenURL = document.getString("quizImage");
+                                String dbCuestionarioID = document.getString("quizID");
 
-                                mCuestionariosList.add(new CuestionarioObj(dbNombreCuestionario, dbImagenURL));
-
-
+                                mCuestionariosList.add(new CuestionarioObj(dbNombreCuestionario, dbImagenURL, dbCuestionarioID));
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(), "No existe", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "No hay cuestionarios", Toast.LENGTH_SHORT).show();
                         }
-                        mAdapterCuestionario = new AdapterCuestionario(Cuestionarios.this, mCuestionariosList);
+                        mAdapterCuestionario = new AdapterCuestionario(Cuestionarios.this, mCuestionariosList, loggedUser);
                         mRecyclerView.setAdapter(mAdapterCuestionario);
 
                     }
                 });
-        String json = new Gson().toJson(mCuestionariosList);
-        Object request = mCuestionariosList;
-
     }
 }
