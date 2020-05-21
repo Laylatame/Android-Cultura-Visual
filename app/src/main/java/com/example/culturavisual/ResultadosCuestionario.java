@@ -13,6 +13,7 @@ public class ResultadosCuestionario extends AppCompatActivity {
 
     private TextView textViewCorrectas;
     private TextView textViewIncorrectas;
+    private TextView textViewScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,7 @@ public class ResultadosCuestionario extends AppCompatActivity {
 
         textViewCorrectas = findViewById(R.id.respuestasCorrectas);
         textViewIncorrectas = findViewById(R.id.respuestasIncorrectas);
+        textViewScore = findViewById(R.id.showScoreResultados);
 
         Integer correct = 0;
         Integer incorrect = 0;
