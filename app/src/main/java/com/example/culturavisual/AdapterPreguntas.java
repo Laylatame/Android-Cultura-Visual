@@ -2,6 +2,11 @@ package com.example.culturavisual;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +14,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -34,7 +44,7 @@ public class AdapterPreguntas extends RecyclerView.Adapter <AdapterPreguntas.Vie
         this.mPreguntasList = preguntasObjsL;
         this.loggedUser = user;
         chosenAnswers = new Integer[preguntasObjsL.size()];
-        Arrays.fill(chosenAnswers,new Integer(0));
+        Arrays.fill(chosenAnswers,new Integer(-1));
     }
 
     @NonNull
@@ -56,7 +66,11 @@ public class AdapterPreguntas extends RecyclerView.Adapter <AdapterPreguntas.Vie
 
         //Set answer 1
         if(currentItem.isImageR1()){
-            Picasso.with(mContext).load(currentItem.getR1()).fit().centerInside().into((Target) holder.mr1);
+            //Picasso.with(mContext).load(currentItem.getR1()).fit().centerInside().into((Target) holder.mr1);
+
+            Drawable image = LoadImageFromWebURL(currentItem.getR1());
+
+
         } else{
             holder.mr1.setText(currentItem.getR1());
         }
@@ -114,15 +128,11 @@ public class AdapterPreguntas extends RecyclerView.Adapter <AdapterPreguntas.Vie
                     preguntasObj current = mPreguntasList.get(position);
 
                     chosenAnswers[position] = 0;
+                    mr1.setBackgroundResource(R.color.darkGray);
+                    mr2.setBackgroundResource(R.color.lightGray);
+                    mr3.setBackgroundResource(R.color.lightGray);
+                    mr4.setBackgroundResource(R.color.lightGray);
 
-                    Toast.makeText(mContext, String.valueOf(chosenAnswers[position]), Toast.LENGTH_SHORT).show();
-
-                    /*
-                    for(int i=0; i<chosenAnswers.length; i++){
-                        Toast.makeText(mContext, String.valueOf(chosenAnswers[i]), Toast.LENGTH_SHORT).show();
-                    }
-
-                     */
                 }
             });
 
@@ -133,8 +143,11 @@ public class AdapterPreguntas extends RecyclerView.Adapter <AdapterPreguntas.Vie
                     preguntasObj current = mPreguntasList.get(position);
 
                     chosenAnswers[position] = 1;
+                    mr1.setBackgroundResource(R.color.lightGray);
+                    mr2.setBackgroundResource(R.color.darkGray);
+                    mr3.setBackgroundResource(R.color.lightGray);
+                    mr4.setBackgroundResource(R.color.lightGray);
 
-                    Toast.makeText(mContext, String.valueOf(chosenAnswers[position]), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -145,8 +158,11 @@ public class AdapterPreguntas extends RecyclerView.Adapter <AdapterPreguntas.Vie
                     preguntasObj current = mPreguntasList.get(position);
 
                     chosenAnswers[position] = 2;
+                    mr1.setBackgroundResource(R.color.lightGray);
+                    mr2.setBackgroundResource(R.color.lightGray);
+                    mr3.setBackgroundResource(R.color.darkGray);
+                    mr4.setBackgroundResource(R.color.lightGray);
 
-                    Toast.makeText(mContext, String.valueOf(chosenAnswers[position]), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -157,11 +173,29 @@ public class AdapterPreguntas extends RecyclerView.Adapter <AdapterPreguntas.Vie
                     preguntasObj current = mPreguntasList.get(position);
 
                     chosenAnswers[position] = 3;
+                    mr1.setBackgroundResource(R.color.lightGray);
+                    mr2.setBackgroundResource(R.color.lightGray);
+                    mr3.setBackgroundResource(R.color.lightGray);
+                    mr4.setBackgroundResource(R.color.darkGray);
 
-                    Toast.makeText(mContext, String.valueOf(chosenAnswers[position]), Toast.LENGTH_SHORT).show();
                 }
             });
 
         }
+    }
+
+
+    public static Drawable LoadImageFromWebURL(String url) {
+        try {
+            InputStream iStream = (InputStream) new URL(url).getContent();
+            Drawable drawable = Drawable.createFromStream(iStream, "src name");
+            return drawable;
+        } catch (Exception e) {
+            return null;
+        }}
+
+
+    public Integer[] getChosenAnswers(){
+        return chosenAnswers;
     }
 }

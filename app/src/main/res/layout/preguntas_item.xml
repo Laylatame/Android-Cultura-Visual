@@ -40,7 +40,7 @@
                 android:gravity="center"
                 android:textSize="15dp"
                 android:textColor="@color/white"
-                android:background="@android:color/darker_gray"/>
+                android:background="@color/lightGray"/>
 
             <TextView
                 android:id="@+id/r2"
@@ -50,9 +50,9 @@
                 android:layout_margin="10dp"
                 android:text="Respuesta 2"
                 android:gravity="center"
-                android:textSize="10dp"
+                android:textSize="15dp"
                 android:textColor="@color/white"
-                android:background="@android:color/darker_gray"/>
+                android:background="@color/lightGray"/>
 
         </LinearLayout>
 
@@ -70,9 +70,9 @@
                 android:layout_margin="10dp"
                 android:text="Respuesta 3"
                 android:gravity="center"
-                android:textSize="10dp"
+                android:textSize="15dp"
                 android:textColor="@color/white"
-                android:background="@android:color/darker_gray"/>
+                android:background="@color/lightGray"/>
             <TextView
                 android:id="@+id/r4"
                 android:layout_width="0dp"
@@ -81,9 +81,9 @@
                 android:text="Respuesta 4"
                 android:gravity="center"
                 android:layout_margin="10dp"
-                android:textSize="10dp"
+                android:textSize="15dp"
                 android:textColor="@color/white"
-                android:background="@android:color/darker_gray"/>
+                android:background="@color/lightGray"/>
         </LinearLayout>
     </LinearLayout>
 

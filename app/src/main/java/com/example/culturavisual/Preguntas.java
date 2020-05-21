@@ -1,6 +1,8 @@
 package com.example.culturavisual;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -27,6 +30,7 @@ public class Preguntas extends AppCompatActivity {
     private TextView nScoreView;
     private TextView nPregunta;
     private TextView tituloCuestionario;
+    private Button botonAceptar;
 
     private TextView nR1, nR2, nR3, nR4;
 
@@ -39,6 +43,8 @@ public class Preguntas extends AppCompatActivity {
     private ArrayList<String> mCorrectasList;
     private Usuarios loggedUser;
     private CuestionarioObj cuestionario;
+    private Integer correctAnswers[];
+
 
     FirebaseFirestore db;
     CollectionReference quizCollection;
@@ -60,6 +66,7 @@ public class Preguntas extends AppCompatActivity {
         nScoreView =  findViewById(R.id.txt_score);
         nPregunta = findViewById(R.id.txt_pregunta);
         tituloCuestionario = findViewById(R.id.titleCuestionarioPreguntas);
+        botonAceptar = findViewById(R.id.btn_aceptar);
 
         tituloCuestionario.setText(cuestionario.getNombreCuestionario());
 
@@ -75,9 +82,30 @@ public class Preguntas extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-       // VolleyLog.DEBUG = true;
-        //mRequestQueue = Volley.newRequestQueue(this);
         parsePreguntas();
+
+        botonAceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Integer chosenAnswers[] = mAdapterPreguntas.getChosenAnswers();
+                correctAnswers = new Integer[mPreguntasList.size()];
+                Arrays.fill(correctAnswers,new Integer(0));
+
+                for(int i=0; i<mPreguntasList.size(); i++){
+                    if(Integer.valueOf(mPreguntasList.get(i).getCorrecta()) == chosenAnswers[i]){
+                        correctAnswers[i] = 1;
+                    }
+                }
+
+                Intent myIntent = new Intent(Preguntas.this, ResultadosCuestionario.class);
+                myIntent.putExtra("user", loggedUser);
+                myIntent.putExtra("answers", correctAnswers);
+                Preguntas.this.startActivity(myIntent);
+
+            }
+        });
+
 
     }
 
@@ -120,4 +148,5 @@ public class Preguntas extends AppCompatActivity {
                     }
                 });
     }
+
 }
