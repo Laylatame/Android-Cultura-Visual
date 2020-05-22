@@ -71,7 +71,11 @@ public class CuestionarioRanking extends AppCompatActivity {
         botonIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "BOTON", Toast.LENGTH_LONG).show();
+
+                Intent myIntent = new Intent(CuestionarioRanking.this, Preguntas.class);
+                myIntent.putExtra("user", loggedUser);
+                myIntent.putExtra("quiz", cuestionario);
+                CuestionarioRanking.this.startActivity(myIntent);
             }
         });
     }
@@ -93,7 +97,6 @@ public class CuestionarioRanking extends AppCompatActivity {
                     int dbScore = Integer.valueOf(snapshot.getString("score"));
 
                     UsuarioCuestionario current = new UsuarioCuestionario(dbUsuario, dbQuizID, dbCorrectas, dbIncorrectas, dbScore);
-                    Toast.makeText(getApplicationContext(), current.getUser(), Toast.LENGTH_SHORT).show();
                     mRankingList.add(current);
                 }
 
