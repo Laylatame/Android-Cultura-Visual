@@ -29,7 +29,6 @@ public class Preguntas extends AppCompatActivity {
 
     private TextView nScoreView;
     private TextView nPregunta;
-    private TextView tituloCuestionario;
     private Button botonAceptar;
 
     private TextView nR1, nR2, nR3, nR4;
@@ -65,10 +64,8 @@ public class Preguntas extends AppCompatActivity {
 
         nScoreView =  findViewById(R.id.txt_score);
         nPregunta = findViewById(R.id.txt_pregunta);
-        tituloCuestionario = findViewById(R.id.titleCuestionarioPreguntas);
         botonAceptar = findViewById(R.id.btn_aceptar);
 
-        tituloCuestionario.setText(cuestionario.getNombreCuestionario());
 
         nR1 = findViewById(R.id.r1);
         nR2 = findViewById(R.id.r2);

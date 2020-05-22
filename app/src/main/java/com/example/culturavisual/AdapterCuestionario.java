@@ -74,7 +74,7 @@ public class AdapterCuestionario extends RecyclerView.Adapter<AdapterCuestionari
                     CuestionarioObj current = cuestionarioList.get(position);
                     String cuestionario = current.getNombreCuestionario();
 
-                    Intent myIntent = new Intent(mContext, Preguntas.class);
+                    Intent myIntent = new Intent(mContext, CuestionarioRanking.class);
                     myIntent.putExtra("user", loggedUser);
                     myIntent.putExtra("quiz", current);
                     mContext.startActivity(myIntent);
