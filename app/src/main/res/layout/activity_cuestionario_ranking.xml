@@ -60,7 +60,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewRanking"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp">
 
@@ -68,11 +68,23 @@
 
         <Button
             android:id="@+id/botonIniciarCuestionario"
-            android:layout_width="200dp"
+            android:layout_width="220dp"
             android:layout_height="50dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:background="@color/red"
             android:text="Iniciar cuestionario"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <Button
+            android:id="@+id/botonRegresarCuestionarios"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/red"
+            android:text="Regresar a cuestionarios"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"

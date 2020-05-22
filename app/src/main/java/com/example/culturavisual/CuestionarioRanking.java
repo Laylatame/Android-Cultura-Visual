@@ -40,6 +40,7 @@ public class CuestionarioRanking extends AppCompatActivity {
     private TextView tituloCuestionario;
     private ImageView imagenCuestionario;
     private Button botonIniciar;
+    private Button botonRegresarCuestionarios;
 
     FirebaseFirestore db;
     CollectionReference rankingCollection;
@@ -55,6 +56,8 @@ public class CuestionarioRanking extends AppCompatActivity {
         tituloCuestionario = findViewById(R.id.textViewCuestionario);
         imagenCuestionario = findViewById(R.id.imageViewRanking);
         botonIniciar = findViewById(R.id.botonIniciarCuestionario);
+        botonRegresarCuestionarios = findViewById(R.id.botonRegresarCuestionarios);
+
         mRecyclerView = findViewById(R.id.recyclerViewRanking);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -76,6 +79,19 @@ public class CuestionarioRanking extends AppCompatActivity {
                 myIntent.putExtra("user", loggedUser);
                 myIntent.putExtra("quiz", cuestionario);
                 CuestionarioRanking.this.startActivity(myIntent);
+            }
+        });
+
+        botonRegresarCuestionarios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                /*
+                Intent myIntent = new Intent(CuestionarioRanking.this, Cuestionarios.class);
+                myIntent.putExtra("user", loggedUser);
+                CuestionarioRanking.this.startActivity(myIntent);
+
+                 */
             }
         });
     }
