@@ -78,6 +78,7 @@ public class CuestionarioRanking extends AppCompatActivity {
                 Intent myIntent = new Intent(CuestionarioRanking.this, Preguntas.class);
                 myIntent.putExtra("user", loggedUser);
                 myIntent.putExtra("quiz", cuestionario);
+                myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 CuestionarioRanking.this.startActivity(myIntent);
             }
         });
@@ -85,13 +86,12 @@ public class CuestionarioRanking extends AppCompatActivity {
         botonRegresarCuestionarios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
-                /*
+
                 Intent myIntent = new Intent(CuestionarioRanking.this, Cuestionarios.class);
                 myIntent.putExtra("user", loggedUser);
+                myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 CuestionarioRanking.this.startActivity(myIntent);
 
-                 */
             }
         });
     }

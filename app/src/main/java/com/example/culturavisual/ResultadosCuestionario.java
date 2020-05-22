@@ -56,8 +56,6 @@ public class ResultadosCuestionario extends AppCompatActivity {
         cuestionario = (CuestionarioObj)getIntent().getSerializableExtra("cuestionario");
         chosenAnswers = (Integer[])getIntent().getSerializableExtra("chosenAnswers");
 
-
-
         db = FirebaseFirestore.getInstance();
         quizCollection = db.collection(cuestionario.getCuestionarioID());
         usuarioQuiz = db.collection("usuarioQuiz");
@@ -103,6 +101,7 @@ public class ResultadosCuestionario extends AppCompatActivity {
                 myIntent.putExtra("showResults", true);
                 myIntent.putExtra("answers", answersBool);
                 myIntent.putExtra("resultsChosenAnswers", chosenAnswers);
+                setResult(RESULT_OK, myIntent);
                 ResultadosCuestionario.this.startActivity(myIntent);
             }
         });

@@ -78,12 +78,13 @@ public class Preguntas extends AppCompatActivity {
 
 
 
-        nScoreView =  findViewById(R.id.txt_score);
+        nScoreView =  findViewById(R.id.txt_timer);
         nPregunta = findViewById(R.id.txt_pregunta);
         botonAceptar = findViewById(R.id.btn_aceptar);
 
         if(showResults){
             botonAceptar.setText("Ver ranking");
+            nScoreView.setText("0:00");
         }
 
 
@@ -239,3 +240,5 @@ public class Preguntas extends AppCompatActivity {
     }
 
 }
+
+
