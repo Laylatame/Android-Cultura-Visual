@@ -10,14 +10,19 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -47,6 +52,7 @@ public class Preguntas extends AppCompatActivity {
 
     FirebaseFirestore db;
     CollectionReference quizCollection;
+    CollectionReference usuarioQuiz;
 
     //private Firebase
 
@@ -60,6 +66,8 @@ public class Preguntas extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         quizCollection = db.collection(cuestionario.getCuestionarioID());
+        usuarioQuiz = db.collection("usuarioQuiz");
+
 
 
         nScoreView =  findViewById(R.id.txt_score);
@@ -94,6 +102,8 @@ public class Preguntas extends AppCompatActivity {
                         correctAnswers[i] = 1;
                     }
                 }
+
+                saveAnswersToDatabase();
 
                 Intent myIntent = new Intent(Preguntas.this, ResultadosCuestionario.class);
                 myIntent.putExtra("user", loggedUser);
@@ -144,6 +154,69 @@ public class Preguntas extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    private void saveAnswersToDatabase(){
+
+        final UsuarioCuestionario usuarioCuestionario = new UsuarioCuestionario();
+
+        Integer correct = 0;
+        Integer incorrect = 0;
+
+        for (int i=0; i<correctAnswers.length; i++){
+            if(correctAnswers[i] == 0){
+                incorrect += 1;
+            }
+            else{
+                correct += 1;
+            }
+        }
+
+        usuarioCuestionario.setUser(loggedUser.getUsuario());
+        usuarioCuestionario.setQuizID(cuestionario.getCuestionarioID());
+        usuarioCuestionario.setCorrectAnswers(correct);
+        usuarioCuestionario.setWrongAnswers(incorrect);
+        usuarioCuestionario.setScore(correct*100);
+
+
+        final DocumentReference usuarioQuizRef = usuarioQuiz.document(usuarioCuestionario.getUser()+usuarioCuestionario.getQuizID());
+
+        usuarioQuizRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()){
+                    Toast.makeText(getApplicationContext(),
+                            "UPDATE!", Toast.LENGTH_SHORT).show();
+                    if(Integer.valueOf(documentSnapshot.getString("score")) < usuarioCuestionario.getScore()){
+                        usuarioQuizRef.update("correctAnswers", toString().valueOf(usuarioCuestionario.getCorrectAnswers()));
+                        usuarioQuizRef.update("wrongAnswers", toString().valueOf(usuarioCuestionario.getWrongAnswers()));
+                        usuarioQuizRef.update("score", toString().valueOf(usuarioCuestionario.getScore()));
+                    }
+
+                } else{
+
+                    Map<String, Object> usuarioEntry = new HashMap<>();
+                    usuarioEntry.put("user", usuarioCuestionario.getUser());
+                    usuarioEntry.put("quizID", usuarioCuestionario.getQuizID());
+                    usuarioEntry.put("score", toString().valueOf(usuarioCuestionario.getScore()));
+                    usuarioEntry.put("correctAnswers", toString().valueOf(usuarioCuestionario.getCorrectAnswers()));
+                    usuarioEntry.put("wrongAnswers", toString().valueOf(usuarioCuestionario.getWrongAnswers()));
+
+                    usuarioQuizRef.set(usuarioEntry);
+
+
+                    Toast.makeText(getApplicationContext(),
+                            "Entrada creada.", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
     }
 
 }

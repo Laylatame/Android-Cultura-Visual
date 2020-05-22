@@ -90,10 +90,10 @@ public class CuestionarioRanking extends AppCompatActivity {
             public void onSuccess(QuerySnapshot documentSnapshots) {
                 List<DocumentSnapshot> snapshotsList = documentSnapshots.getDocuments();
                 for (DocumentSnapshot snapshot : snapshotsList) {
-                    String dbUsuario = snapshot.getString("usuario");
+                    String dbUsuario = snapshot.getString("user");
                     String dbQuizID = snapshot.getString("quizID");
-                    int dbCorrectas = Integer.valueOf(snapshot.getString("correctas"));
-                    int dbIncorrectas = Integer.valueOf(snapshot.getString("incorrectas"));
+                    int dbCorrectas = Integer.valueOf(snapshot.getString("correctAnswers"));
+                    int dbIncorrectas = Integer.valueOf(snapshot.getString("wrongAnswers"));
                     int dbScore = Integer.valueOf(snapshot.getString("score"));
 
                     UsuarioCuestionario current = new UsuarioCuestionario(dbUsuario, dbQuizID, dbCorrectas, dbIncorrectas, dbScore);
