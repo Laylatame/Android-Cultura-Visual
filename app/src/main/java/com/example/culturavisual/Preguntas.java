@@ -1,7 +1,10 @@
 package com.example.culturavisual;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.Button;
@@ -24,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class Preguntas extends AppCompatActivity {
 
-    private TextView nScoreView;
+    private TextView timerView;
     private TextView nPregunta;
     private Button botonAceptar;
 
@@ -48,14 +52,16 @@ public class Preguntas extends AppCompatActivity {
     private Integer showAnswers[];
     private Integer resultsChosenAnswers[];
     private Boolean showResults;
+    public int timerCounter;
+    private int score;
 
 
     FirebaseFirestore db;
     CollectionReference quizCollection;
     CollectionReference usuarioQuiz;
 
-    //private Firebase
 
+    @TargetApi(Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,13 +81,13 @@ public class Preguntas extends AppCompatActivity {
 
 
 
-        nScoreView =  findViewById(R.id.txt_timer);
+        timerView =  findViewById(R.id.txt_timer);
         nPregunta = findViewById(R.id.txt_pregunta);
         botonAceptar = findViewById(R.id.btn_aceptar);
 
         if(showResults){
             botonAceptar.setText("Ver ranking");
-            nScoreView.setText("0:00");
+            timerView.setText("0:00");
         }
 
 
@@ -97,7 +103,12 @@ public class Preguntas extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
         parsePreguntas();
+
+        if(!showResults){
+            runTimer();
+        }
 
         botonAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,6 +245,41 @@ public class Preguntas extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void runTimer(){
+        new CountDownTimer(60000,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timerView.setText(""+String.format("%d min, %d sec",
+                        TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                timerCounter++;
+            }
+            @Override
+            public void onFinish() {
+                timerView.setText("TIME'S UP");
+                Integer chosenAnswers[] = mAdapterPreguntas.getChosenAnswers();
+                correctAnswers = new Integer[mPreguntasList.size()];
+                Arrays.fill(correctAnswers,new Integer(0));
+
+                for(int i=0; i<mPreguntasList.size(); i++){
+                    if(Integer.valueOf(mPreguntasList.get(i).getCorrecta()) == chosenAnswers[i]){
+                        correctAnswers[i] = 1;
+                    }
+                }
+
+                saveAnswersToDatabase();
+
+                Intent myIntent = new Intent(Preguntas.this, ResultadosCuestionario.class);
+                myIntent.putExtra("user", loggedUser);
+                myIntent.putExtra("answers", correctAnswers);
+                myIntent.putExtra("cuestionario", cuestionario);
+                myIntent.putExtra("chosenAnswers", chosenAnswers);
+                Preguntas.this.startActivity(myIntent);
+            }
+        }.start();
     }
 
 }
