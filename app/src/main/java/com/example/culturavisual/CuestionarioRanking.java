@@ -25,6 +25,7 @@ import com.google.firebase.firestore.core.OrderBy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CuestionarioRanking extends AppCompatActivity {
@@ -97,6 +98,7 @@ public class CuestionarioRanking extends AppCompatActivity {
                 }
 
 
+                Collections.sort(mRankingList);
                 mAdapterRanking = new AdapterRanking(CuestionarioRanking.this, mRankingList);
                 mRecyclerView.setAdapter(mAdapterRanking);
             }});

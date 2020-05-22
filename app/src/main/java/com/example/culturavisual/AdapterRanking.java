@@ -40,7 +40,7 @@ public class AdapterRanking extends RecyclerView.Adapter<AdapterRanking.ViewHold
 
 
         UsuarioCuestionario currentItem = mRankingList.get(position);
-        holder.textViewRanking.setText(currentItem.getUser());
+        holder.textViewRanking.setText("   "+currentItem.getUser());
         holder.textViewScore.setText(String.valueOf(currentItem.getScore()));
     }
 

@@ -1,6 +1,6 @@
 package com.example.culturavisual;
 
-public class UsuarioCuestionario {
+public class UsuarioCuestionario implements Comparable{
 
     private String _user;
     private String _quizID;
@@ -58,5 +58,12 @@ public class UsuarioCuestionario {
 
     public int getScore(){
         return _score;
+    }
+
+
+    @Override
+    public int compareTo(Object o) {
+        int comparescore=((UsuarioCuestionario)o).getScore();
+        return comparescore-this._score;
     }
 }
