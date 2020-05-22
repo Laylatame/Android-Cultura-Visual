@@ -48,6 +48,9 @@ public class Preguntas extends AppCompatActivity {
     private Usuarios loggedUser;
     private CuestionarioObj cuestionario;
     private Integer correctAnswers[];
+    private Integer showAnswers[];
+    private Integer resultsChosenAnswers[];
+    private Boolean showResults;
 
 
     FirebaseFirestore db;
@@ -63,6 +66,11 @@ public class Preguntas extends AppCompatActivity {
 
         loggedUser = (Usuarios)getIntent().getSerializableExtra("user");
         cuestionario = (CuestionarioObj)getIntent().getSerializableExtra("quiz");
+        showResults = getIntent().getBooleanExtra("showResults", false);
+        //Both arrays are going to be null except when showResults is true
+        showAnswers = (Integer[])getIntent().getSerializableExtra("answers");
+        resultsChosenAnswers = (Integer[])getIntent().getSerializableExtra("resultsChosenAnswers");
+
 
         db = FirebaseFirestore.getInstance();
         quizCollection = db.collection(cuestionario.getCuestionarioID());
@@ -73,6 +81,10 @@ public class Preguntas extends AppCompatActivity {
         nScoreView =  findViewById(R.id.txt_score);
         nPregunta = findViewById(R.id.txt_pregunta);
         botonAceptar = findViewById(R.id.btn_aceptar);
+
+        if(showResults){
+            botonAceptar.setText("Ver ranking");
+        }
 
 
         nR1 = findViewById(R.id.r1);
@@ -93,23 +105,32 @@ public class Preguntas extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Integer chosenAnswers[] = mAdapterPreguntas.getChosenAnswers();
-                correctAnswers = new Integer[mPreguntasList.size()];
-                Arrays.fill(correctAnswers,new Integer(0));
-
-                for(int i=0; i<mPreguntasList.size(); i++){
-                    if(Integer.valueOf(mPreguntasList.get(i).getCorrecta()) == chosenAnswers[i]){
-                        correctAnswers[i] = 1;
-                    }
+                if(showResults){
+                    Intent myIntent = new Intent(Preguntas.this, CuestionarioRanking.class);
+                    myIntent.putExtra("user", loggedUser);
+                    myIntent.putExtra("quiz", cuestionario);
+                    Preguntas.this.startActivity(myIntent);
                 }
+                else{
+                    Integer chosenAnswers[] = mAdapterPreguntas.getChosenAnswers();
+                    correctAnswers = new Integer[mPreguntasList.size()];
+                    Arrays.fill(correctAnswers,new Integer(0));
 
-                saveAnswersToDatabase();
+                    for(int i=0; i<mPreguntasList.size(); i++){
+                        if(Integer.valueOf(mPreguntasList.get(i).getCorrecta()) == chosenAnswers[i]){
+                            correctAnswers[i] = 1;
+                        }
+                    }
 
-                Intent myIntent = new Intent(Preguntas.this, ResultadosCuestionario.class);
-                myIntent.putExtra("user", loggedUser);
-                myIntent.putExtra("answers", correctAnswers);
-                Preguntas.this.startActivity(myIntent);
+                    saveAnswersToDatabase();
 
+                    Intent myIntent = new Intent(Preguntas.this, ResultadosCuestionario.class);
+                    myIntent.putExtra("user", loggedUser);
+                    myIntent.putExtra("answers", correctAnswers);
+                    myIntent.putExtra("cuestionario", cuestionario);
+                    myIntent.putExtra("chosenAnswers", chosenAnswers);
+                    Preguntas.this.startActivity(myIntent);
+                }
             }
         });
 
@@ -149,7 +170,7 @@ public class Preguntas extends AppCompatActivity {
                         } else {
                             Toast.makeText(getApplicationContext(), "No hay preguntas", Toast.LENGTH_SHORT).show();
                         }
-                        mAdapterPreguntas = new AdapterPreguntas(Preguntas.this, mPreguntasList, loggedUser);
+                        mAdapterPreguntas = new AdapterPreguntas(Preguntas.this, mPreguntasList, loggedUser, showResults, showAnswers, resultsChosenAnswers);
                         mRecyclerView.setAdapter(mAdapterPreguntas);
 
                     }
@@ -185,8 +206,6 @@ public class Preguntas extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if(documentSnapshot.exists()){
-                    Toast.makeText(getApplicationContext(),
-                            "UPDATE!", Toast.LENGTH_SHORT).show();
                     if(Integer.valueOf(documentSnapshot.getString("score")) < usuarioCuestionario.getScore()){
                         usuarioQuizRef.update("correctAnswers", toString().valueOf(usuarioCuestionario.getCorrectAnswers()));
                         usuarioQuizRef.update("wrongAnswers", toString().valueOf(usuarioCuestionario.getWrongAnswers()));

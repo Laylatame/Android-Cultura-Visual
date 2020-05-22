@@ -1,23 +1,14 @@
 package com.example.culturavisual;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,14 +26,20 @@ public class AdapterPreguntas extends RecyclerView.Adapter <AdapterPreguntas.Vie
     private Context mContext;
     private ArrayList<preguntasObj> mPreguntasList;
     private Usuarios loggedUser;
+    private Boolean showResults;
     Integer chosenAnswers[];
+    Integer resultsChosenAnswers[];
+    Integer showAnswers[];
 
 
 
-    public  AdapterPreguntas(Context context,ArrayList<preguntasObj> preguntasObjsL, Usuarios user) {
+    public  AdapterPreguntas(Context context,ArrayList<preguntasObj> preguntasObjsL, Usuarios user, Boolean showResults, Integer correctAnswers[], Integer results[]) {
         this.mContext = context;
         this.mPreguntasList = preguntasObjsL;
         this.loggedUser = user;
+        this.showResults = showResults;
+        this.showAnswers = correctAnswers;
+        this.resultsChosenAnswers = results;
         chosenAnswers = new Integer[preguntasObjsL.size()];
         Arrays.fill(chosenAnswers,new Integer(-1));
     }
@@ -96,7 +93,37 @@ public class AdapterPreguntas extends RecyclerView.Adapter <AdapterPreguntas.Vie
             holder.mr4.setText(currentItem.getR4());
         }
 
-}
+        if(showResults){
+            if(resultsChosenAnswers[position] != Integer.valueOf(currentItem.getCorrecta())){
+                if(resultsChosenAnswers[position] == 0){
+                    holder.mr1.setBackgroundResource(R.color.redWrong);
+                }
+                if(resultsChosenAnswers[position] == 1){
+                    holder.mr2.setBackgroundResource(R.color.redWrong);
+                }
+                if(resultsChosenAnswers[position] == 2){
+                    holder.mr3.setBackgroundResource(R.color.redWrong);
+                }
+                if(resultsChosenAnswers[position] == 3){
+                    holder.mr4.setBackgroundResource(R.color.redWrong);
+                }
+            }
+
+            if(Integer.valueOf(currentItem.getCorrecta()) == 0){
+                holder.mr1.setBackgroundResource(R.color.green);
+            }
+            if(Integer.valueOf(currentItem.getCorrecta()) == 1){
+                holder.mr2.setBackgroundResource(R.color.green);
+            }
+            if(Integer.valueOf(currentItem.getCorrecta()) == 2){
+                holder.mr3.setBackgroundResource(R.color.green);
+            }
+            if(Integer.valueOf(currentItem.getCorrecta()) == 3){
+                holder.mr4.setBackgroundResource(R.color.green);
+            }
+        }
+
+    }
 
     @Override
     public int getItemCount() {
@@ -120,67 +147,69 @@ public class AdapterPreguntas extends RecyclerView.Adapter <AdapterPreguntas.Vie
             mr3 = itemView.findViewById(R.id.r3);
             mr4 = itemView.findViewById(R.id.r4);
 
+            if(showResults){
 
-            mr1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    preguntasObj current = mPreguntasList.get(position);
+            } else{
+                mr1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int position = getAdapterPosition();
+                        preguntasObj current = mPreguntasList.get(position);
 
-                    chosenAnswers[position] = 0;
-                    mr1.setBackgroundResource(R.color.darkGray);
-                    mr2.setBackgroundResource(R.color.lightGray);
-                    mr3.setBackgroundResource(R.color.lightGray);
-                    mr4.setBackgroundResource(R.color.lightGray);
+                        chosenAnswers[position] = 0;
+                        mr1.setBackgroundResource(R.color.darkGray);
+                        mr2.setBackgroundResource(R.color.lightGray);
+                        mr3.setBackgroundResource(R.color.lightGray);
+                        mr4.setBackgroundResource(R.color.lightGray);
 
-                }
-            });
+                    }
+                });
 
-            mr2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    preguntasObj current = mPreguntasList.get(position);
+                mr2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int position = getAdapterPosition();
+                        preguntasObj current = mPreguntasList.get(position);
 
-                    chosenAnswers[position] = 1;
-                    mr1.setBackgroundResource(R.color.lightGray);
-                    mr2.setBackgroundResource(R.color.darkGray);
-                    mr3.setBackgroundResource(R.color.lightGray);
-                    mr4.setBackgroundResource(R.color.lightGray);
+                        chosenAnswers[position] = 1;
+                        mr1.setBackgroundResource(R.color.lightGray);
+                        mr2.setBackgroundResource(R.color.darkGray);
+                        mr3.setBackgroundResource(R.color.lightGray);
+                        mr4.setBackgroundResource(R.color.lightGray);
 
-                }
-            });
+                    }
+                });
 
-            mr3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    preguntasObj current = mPreguntasList.get(position);
+                mr3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int position = getAdapterPosition();
+                        preguntasObj current = mPreguntasList.get(position);
 
-                    chosenAnswers[position] = 2;
-                    mr1.setBackgroundResource(R.color.lightGray);
-                    mr2.setBackgroundResource(R.color.lightGray);
-                    mr3.setBackgroundResource(R.color.darkGray);
-                    mr4.setBackgroundResource(R.color.lightGray);
+                        chosenAnswers[position] = 2;
+                        mr1.setBackgroundResource(R.color.lightGray);
+                        mr2.setBackgroundResource(R.color.lightGray);
+                        mr3.setBackgroundResource(R.color.darkGray);
+                        mr4.setBackgroundResource(R.color.lightGray);
 
-                }
-            });
+                    }
+                });
 
-            mr4.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    preguntasObj current = mPreguntasList.get(position);
+                mr4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int position = getAdapterPosition();
+                        preguntasObj current = mPreguntasList.get(position);
 
-                    chosenAnswers[position] = 3;
-                    mr1.setBackgroundResource(R.color.lightGray);
-                    mr2.setBackgroundResource(R.color.lightGray);
-                    mr3.setBackgroundResource(R.color.lightGray);
-                    mr4.setBackgroundResource(R.color.darkGray);
+                        chosenAnswers[position] = 3;
+                        mr1.setBackgroundResource(R.color.lightGray);
+                        mr2.setBackgroundResource(R.color.lightGray);
+                        mr3.setBackgroundResource(R.color.lightGray);
+                        mr4.setBackgroundResource(R.color.darkGray);
 
-                }
-            });
-
+                    }
+                });
+            }
         }
     }
 
@@ -192,8 +221,8 @@ public class AdapterPreguntas extends RecyclerView.Adapter <AdapterPreguntas.Vie
             return drawable;
         } catch (Exception e) {
             return null;
-        }}
-
+        }
+    }
 
     public Integer[] getChosenAnswers(){
         return chosenAnswers;
