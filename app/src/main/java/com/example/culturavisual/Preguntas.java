@@ -38,9 +38,6 @@ public class Preguntas extends AppCompatActivity {
 
     private TextView nR1, nR2, nR3, nR4;
 
-    private String respuesta;
-    private int score;
-
     private RecyclerView mRecyclerView;
     private AdapterPreguntas mAdapterPreguntas;
     private ArrayList<preguntasObj> mPreguntasList;
