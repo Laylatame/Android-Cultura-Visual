@@ -75,7 +75,7 @@ public class RegistrarUsuario extends AppCompatActivity {
                                 "Usuario creado.", Toast.LENGTH_SHORT).show();
 
                         Intent myIntent = new Intent(RegistrarUsuario.this, mainScreen.class);
-                        myIntent.putExtra("username", user.getUsuario());
+                        myIntent.putExtra("user", user);
                         RegistrarUsuario.this.startActivity(myIntent);
                     }
 
