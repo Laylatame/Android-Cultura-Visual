@@ -20,8 +20,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
@@ -30,16 +32,20 @@ import com.google.gson.JsonArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Cuestionarios extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private AdapterCuestionario mAdapterCuestionario;
     private ArrayList<CuestionarioObj> mCuestionariosList;
+    private ArrayList<UsuarioCuestionario> mProgressUser;
     Usuarios loggedUser;
 
     FirebaseFirestore db;
     CollectionReference quizesCollection;
+    CollectionReference usuarioQuiz;
 
 
     @Override
@@ -49,6 +55,7 @@ public class Cuestionarios extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         quizesCollection = db.collection("quizes");
+        usuarioQuiz = db.collection("usuarioQuiz");
 
         mRecyclerView = findViewById(R.id.recyclerViewCuestionarios);
         mRecyclerView.setHasFixedSize(true);
@@ -57,6 +64,7 @@ public class Cuestionarios extends AppCompatActivity {
 
 
         mCuestionariosList = new ArrayList<>();
+        mProgressUser = new ArrayList<>();
 
         getCuestionariosFromDB();
 
@@ -72,16 +80,44 @@ public class Cuestionarios extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String dbNombreCuestionario = document.getString("quizName");
                                 String dbImagenURL = document.getString("quizImage");
-                                String dbCuestionarioID = document.getString("quizID");
+                                final String dbCuestionarioID = document.getString("quizID");
 
                                 mCuestionariosList.add(new CuestionarioObj(dbNombreCuestionario, dbImagenURL, dbCuestionarioID));
+
+
+                                DocumentReference userQuizRef = usuarioQuiz.document(loggedUser.getUsuario()+dbCuestionarioID);
+
+                                userQuizRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        if(documentSnapshot.exists()){
+                                            String dbCorrectAnswers = documentSnapshot.getString("correctAnswers");
+                                            String dbWrongAnswers = documentSnapshot.getString("wrongAnswers");
+                                            String dbQuizID = documentSnapshot.getString("quizID");
+                                            String dbUser = documentSnapshot.getString("user");
+                                            String dbScore = documentSnapshot.getString("score");
+
+                                            UsuarioCuestionario userQuiz = new UsuarioCuestionario(dbUser, dbQuizID, Integer.valueOf(dbCorrectAnswers), Integer.valueOf(dbWrongAnswers), Integer.valueOf(dbScore));
+                                            mProgressUser.add(userQuiz);
+                                        } else{
+                                            String dbCorrectAnswers = "0";
+                                            String dbWrongAnswers = "0";
+                                            String dbQuizID = dbCuestionarioID;
+                                            String dbUser = loggedUser.getUsuario();
+                                            String dbScore = "0";
+
+                                            UsuarioCuestionario userQuiz = new UsuarioCuestionario(dbUser, dbQuizID, Integer.valueOf(dbCorrectAnswers), Integer.valueOf(dbWrongAnswers), Integer.valueOf(dbScore));
+                                            mProgressUser.add(userQuiz);
+                                        }
+                                    }
+                                });
                             }
                         } else {
-                            Toast.makeText(getApplicationContext(), "No hay cuestionarios", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "No hay cuestionarios disponibles.", Toast.LENGTH_SHORT).show();
                         }
-                        mAdapterCuestionario = new AdapterCuestionario(Cuestionarios.this, mCuestionariosList, loggedUser);
+                        Toast.makeText(getApplicationContext(), String.valueOf(mProgressUser.size()), Toast.LENGTH_SHORT).show();
+                        mAdapterCuestionario = new AdapterCuestionario(Cuestionarios.this, mCuestionariosList, loggedUser, mProgressUser);
                         mRecyclerView.setAdapter(mAdapterCuestionario);
-
                     }
                 });
     }

@@ -18,15 +18,33 @@
             android:src="@mipmap/ic_launcher"
             android:gravity="center" />
 
-        <TextView
-            android:id="@+id/textViewCuestionario"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Título Cuestionario"
-            android:layout_gravity="center_vertical"
-            android:textSize="20dp"
-            android:layout_marginLeft="8dp"
-            android:textColor="@color/black"/>
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/textViewCuestionario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Título Cuestionario"
+                android:layout_gravity="center_vertical"
+                android:textSize="20dp"
+                android:layout_marginLeft="8dp"
+                android:textColor="@color/black"/>
+
+            <ProgressBar
+                android:id="@+id/progressBarCuestionario"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:max="100"
+                android:progress="50"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

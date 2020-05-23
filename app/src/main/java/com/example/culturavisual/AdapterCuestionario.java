@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,13 +22,15 @@ public class AdapterCuestionario extends RecyclerView.Adapter<AdapterCuestionari
 
     private Context mContext;
     private ArrayList<CuestionarioObj> cuestionarioList;
+    private ArrayList<UsuarioCuestionario> mProgressList;
     private Usuarios loggedUser;
 
 
-    public AdapterCuestionario(Context context, ArrayList<CuestionarioObj> cuestionarioList, Usuarios loggedUser){
+    public AdapterCuestionario(Context context, ArrayList<CuestionarioObj> cuestionarioList, Usuarios loggedUser, ArrayList<UsuarioCuestionario> progressList){
         this.mContext = context;
         this.cuestionarioList = cuestionarioList;
         this.loggedUser = loggedUser;
+        this.mProgressList = progressList;
     }
 
     @NonNull
@@ -48,6 +51,10 @@ public class AdapterCuestionario extends RecyclerView.Adapter<AdapterCuestionari
         holder.mTextViewCuestionario.setText(cuestionarioNombre);
         Picasso.with(mContext).load(imgURL).fit().centerInside().into(holder.mImageViewCuestionario);
 
+        //if(currentItem.getCuestionarioID() == mProgressList.get(position).getQuizID()){
+          //  Toast.makeText(mContext, "Van en orden correcto" + currentItem.getCuestionarioID(), Toast.LENGTH_SHORT).show();
+       // }
+
     }
 
     @Override
@@ -59,12 +66,14 @@ public class AdapterCuestionario extends RecyclerView.Adapter<AdapterCuestionari
 
         public ImageView mImageViewCuestionario;
         public TextView mTextViewCuestionario;
+        public ProgressBar mProgressCuestionario;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mImageViewCuestionario = itemView.findViewById(R.id.imageViewCuestionario);
             mTextViewCuestionario = itemView.findViewById(R.id.textViewCuestionario);
+            mProgressCuestionario = itemView.findViewById(R.id.progressBarCuestionario);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
