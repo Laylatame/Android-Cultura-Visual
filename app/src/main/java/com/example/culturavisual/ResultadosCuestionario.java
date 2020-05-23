@@ -6,12 +6,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -21,6 +27,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.transform.Result;
@@ -72,6 +79,8 @@ public class ResultadosCuestionario extends AppCompatActivity {
         textViewIncorrectas.setText(String.valueOf(incorrect));
         textViewScore.setText(String.valueOf(score));
 
+        buildPieChart(correct, incorrect);
+
         buttonRegresarResultados.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,4 +96,25 @@ public class ResultadosCuestionario extends AppCompatActivity {
         });
 
     }
+
+    private void buildPieChart(int correct, int incorrect){
+        List<PieEntry> pieEntries = new ArrayList<>();
+        pieEntries.add(new PieEntry(correct, "Correctas"));
+        pieEntries.add(new PieEntry(incorrect, "Incorrectas"));
+
+        PieDataSet dataSet = new PieDataSet(pieEntries, "Resultados");
+        dataSet.setColors(COLORS);
+        PieData data = new PieData(dataSet);
+
+        PieChart chart = findViewById(R.id.pieChartResultados);
+        chart.setData(data);
+        chart.animateY(1000);
+        chart.getDescription().setEnabled(false);
+        chart.setDrawEntryLabels(false);
+        chart.invalidate();
+    }
+
+    public static final int[] COLORS = {
+            Color.rgb(50, 206, 39), Color.rgb(255,40,0)
+    };
 }
