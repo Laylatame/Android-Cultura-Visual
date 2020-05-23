@@ -111,8 +111,10 @@ public class CuestionarioRanking extends AppCompatActivity {
                     int dbCorrectas = Integer.valueOf(snapshot.getString("correctAnswers"));
                     int dbIncorrectas = Integer.valueOf(snapshot.getString("wrongAnswers"));
                     int dbScore = Integer.valueOf(snapshot.getString("score"));
+                    String dbQuizName = snapshot.getString("quizName");
+                    String dbQuizImage = snapshot.getString("quizImage");
 
-                    UsuarioCuestionario current = new UsuarioCuestionario(dbUsuario, dbQuizID, dbCorrectas, dbIncorrectas, dbScore);
+                    UsuarioCuestionario current = new UsuarioCuestionario(dbUsuario, dbQuizID, dbCorrectas, dbIncorrectas, dbScore, dbQuizName, dbQuizImage);
                     mRankingList.add(current);
                 }
 

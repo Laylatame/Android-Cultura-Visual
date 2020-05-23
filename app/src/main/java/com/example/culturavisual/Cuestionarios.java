@@ -96,8 +96,10 @@ public class Cuestionarios extends AppCompatActivity {
                                             String dbQuizID = documentSnapshot.getString("quizID");
                                             String dbUser = documentSnapshot.getString("user");
                                             String dbScore = documentSnapshot.getString("score");
+                                            String dbQuizName = documentSnapshot.getString("quizName");
+                                            String dbQuizImage = documentSnapshot.getString("quizImage");
 
-                                            UsuarioCuestionario userQuiz = new UsuarioCuestionario(dbUser, dbQuizID, Integer.valueOf(dbCorrectAnswers), Integer.valueOf(dbWrongAnswers), Integer.valueOf(dbScore));
+                                            UsuarioCuestionario userQuiz = new UsuarioCuestionario(dbUser, dbQuizID, Integer.valueOf(dbCorrectAnswers), Integer.valueOf(dbWrongAnswers), Integer.valueOf(dbScore), dbQuizName, dbQuizImage);
                                             mProgressUser.add(userQuiz);
                                         } else{
                                             String dbCorrectAnswers = "0";
@@ -105,8 +107,10 @@ public class Cuestionarios extends AppCompatActivity {
                                             String dbQuizID = dbCuestionarioID;
                                             String dbUser = loggedUser.getUsuario();
                                             String dbScore = "0";
+                                            String dbQuizName = "";
+                                            String dbQuizImage = "";
 
-                                            UsuarioCuestionario userQuiz = new UsuarioCuestionario(dbUser, dbQuizID, Integer.valueOf(dbCorrectAnswers), Integer.valueOf(dbWrongAnswers), Integer.valueOf(dbScore));
+                                            UsuarioCuestionario userQuiz = new UsuarioCuestionario(dbUser, dbQuizID, Integer.valueOf(dbCorrectAnswers), Integer.valueOf(dbWrongAnswers), Integer.valueOf(dbScore), dbQuizName, dbQuizImage);
                                             mProgressUser.add(userQuiz);
                                         }
                                     }
@@ -115,7 +119,6 @@ public class Cuestionarios extends AppCompatActivity {
                         } else {
                             Toast.makeText(getApplicationContext(), "No hay cuestionarios disponibles.", Toast.LENGTH_SHORT).show();
                         }
-                        Toast.makeText(getApplicationContext(), String.valueOf(mProgressUser.size()), Toast.LENGTH_SHORT).show();
                         mAdapterCuestionario = new AdapterCuestionario(Cuestionarios.this, mCuestionariosList, loggedUser, mProgressUser);
                         mRecyclerView.setAdapter(mAdapterCuestionario);
                     }

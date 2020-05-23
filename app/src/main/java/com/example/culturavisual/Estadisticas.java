@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -37,7 +39,7 @@ public class Estadisticas extends AppCompatActivity {
     Usuarios loggedUser;
 
     FirebaseFirestore db;
-    CollectionReference quizesCollection;
+    private static CollectionReference quizesCollection;
     CollectionReference usuarioQuiz;
 
     @Override
@@ -75,8 +77,10 @@ public class Estadisticas extends AppCompatActivity {
                     int dbCorrectas = Integer.valueOf(snapshot.getString("correctAnswers"));
                     int dbIncorrectas = Integer.valueOf(snapshot.getString("wrongAnswers"));
                     int dbScore = Integer.valueOf(snapshot.getString("score"));
+                    String dbQuizName = snapshot.getString("quizName");
+                    String dbQuizImage = snapshot.getString("quizImage");
 
-                    UsuarioCuestionario current = new UsuarioCuestionario(dbUsuario, dbQuizID, dbCorrectas, dbIncorrectas, dbScore);
+                    UsuarioCuestionario current = new UsuarioCuestionario(dbUsuario, dbQuizID, dbCorrectas, dbIncorrectas, dbScore, dbQuizName, dbQuizImage);
                     mProgressUser.add(current);
                 }
 
@@ -92,7 +96,7 @@ public class Estadisticas extends AppCompatActivity {
         List<PieEntry> pieEntries = new ArrayList<>();
 
         for(int i=0; i<progressUser.size(); i++){
-            pieEntries.add(new PieEntry(progressUser.get(i).getCorrectAnswers(), progressUser.get(i).getQuizID()));
+            pieEntries.add(new PieEntry(progressUser.get(i).getCorrectAnswers(), progressUser.get(i).getQuizName()));
         }
 
         PieDataSet dataSet = new PieDataSet(pieEntries, "Avances");
@@ -117,4 +121,5 @@ public class Estadisticas extends AppCompatActivity {
             Color.rgb(75,0,130),
             Color.rgb(255,127,0)
     };
+
 }

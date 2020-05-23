@@ -7,17 +7,21 @@ public class UsuarioCuestionario implements Comparable{
     private int _correctAnswers;
     private int _wrongAnswers;
     private int _score;
+    private String _quizName;
+    private String _quizImage;
 
     public UsuarioCuestionario(){
 
     }
 
-    public UsuarioCuestionario(String user, String quizID, int correct, int wrong, int score){
+    public UsuarioCuestionario(String user, String quizID, int correct, int wrong, int score, String name, String imageURL){
         this._user = user;
         this._quizID = quizID;
         this._correctAnswers = correct;
         this._wrongAnswers = wrong;
         this._score = score;
+        this._quizName = name;
+        this._quizImage = imageURL;
     }
 
     public void setUser(String user){
@@ -58,6 +62,22 @@ public class UsuarioCuestionario implements Comparable{
 
     public int getScore(){
         return _score;
+    }
+
+    public void setQuizName(String name){
+        this._quizName = name;
+    }
+
+    public String getQuizName(){
+        return _quizName;
+    }
+
+    public void setQuizImage(String imageURL){
+        this._quizImage = imageURL;
+    }
+
+    public String getQuizImage(){
+        return _quizImage;
     }
 
 

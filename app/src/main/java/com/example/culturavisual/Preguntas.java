@@ -229,12 +229,11 @@ public class Preguntas extends AppCompatActivity {
                     usuarioEntry.put("score", toString().valueOf(usuarioCuestionario.getScore()));
                     usuarioEntry.put("correctAnswers", toString().valueOf(usuarioCuestionario.getCorrectAnswers()));
                     usuarioEntry.put("wrongAnswers", toString().valueOf(usuarioCuestionario.getWrongAnswers()));
+                    usuarioEntry.put("quizName", cuestionario.getNombreCuestionario());
+                    usuarioEntry.put("quizImage", cuestionario.getImagenURL());
 
                     usuarioQuizRef.set(usuarioEntry);
 
-
-                    Toast.makeText(getApplicationContext(),
-                            "Entrada creada.", Toast.LENGTH_SHORT).show();
                 }
 
             }
