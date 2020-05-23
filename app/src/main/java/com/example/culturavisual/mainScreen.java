@@ -34,7 +34,9 @@ public class mainScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //Load activity mis estadisticas
+                Intent myIntent = new Intent(mainScreen.this, Estadisticas.class);
+                myIntent.putExtra("user", loggedUser);
+                mainScreen.this.startActivity(myIntent);
             }
         });
 
