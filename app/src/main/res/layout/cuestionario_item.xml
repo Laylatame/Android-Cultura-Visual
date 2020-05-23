@@ -33,17 +33,6 @@
                 android:textSize="20dp"
                 android:layout_marginLeft="8dp"
                 android:textColor="@color/black"/>
-
-            <ProgressBar
-                android:id="@+id/progressBarCuestionario"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:max="100"
-                android:progress="50"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
         </LinearLayout>
     </LinearLayout>
 

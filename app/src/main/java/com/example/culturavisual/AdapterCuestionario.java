@@ -73,7 +73,7 @@ public class AdapterCuestionario extends RecyclerView.Adapter<AdapterCuestionari
 
             mImageViewCuestionario = itemView.findViewById(R.id.imageViewCuestionario);
             mTextViewCuestionario = itemView.findViewById(R.id.textViewCuestionario);
-            mProgressCuestionario = itemView.findViewById(R.id.progressBarCuestionario);
+            //mProgressCuestionario = itemView.findViewById(R.id.progressBarCuestionario);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
