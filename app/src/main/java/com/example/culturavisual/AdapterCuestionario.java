@@ -2,7 +2,6 @@ package com.example.culturavisual;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,10 +50,13 @@ public class AdapterCuestionario extends RecyclerView.Adapter<AdapterCuestionari
         holder.mTextViewCuestionario.setText(cuestionarioNombre);
         Picasso.with(mContext).load(imgURL).fit().centerInside().into(holder.mImageViewCuestionario);
 
-        //if(currentItem.getCuestionarioID() == mProgressList.get(position).getQuizID()){
-          //  Toast.makeText(mContext, "Van en orden correcto" + currentItem.getCuestionarioID(), Toast.LENGTH_SHORT).show();
-       // }
-
+        for(int i=0; i<mProgressList.size(); i++){
+            UsuarioCuestionario current = mProgressList.get(i);
+            if(currentItem.getCuestionarioID().equals(current.getQuizID())){
+                holder.mProgressCuestionario.setMax(current.getCorrectAnswers() + current.getWrongAnswers());
+                holder.mProgressCuestionario.setProgress(current.getCorrectAnswers());
+            }
+        }
     }
 
     @Override
@@ -73,7 +75,7 @@ public class AdapterCuestionario extends RecyclerView.Adapter<AdapterCuestionari
 
             mImageViewCuestionario = itemView.findViewById(R.id.imageViewCuestionario);
             mTextViewCuestionario = itemView.findViewById(R.id.textViewCuestionario);
-            //mProgressCuestionario = itemView.findViewById(R.id.progressBarCuestionario);
+            mProgressCuestionario = itemView.findViewById(R.id.progressBarCuestionario);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
